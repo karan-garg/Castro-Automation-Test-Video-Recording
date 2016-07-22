@@ -2,7 +2,7 @@ from castro import Castro
 from time import sleep
 import os
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     output_file_path = os.path.join(os.getcwd(), "test_video.swf")
     
