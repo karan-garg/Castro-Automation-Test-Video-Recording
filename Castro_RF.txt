@@ -1,0 +1,50 @@
+*** Settings ***
+Documentation     Example RF code to start/stop Castro screencasts and integrate video recording within test log/report.
+Library           DateTime
+Library           OperatingSystem
+
+*** Variables ***
+#***Before running, set output directory for video and specify vnc_passwd file path***
+${output dir}     ${CURDIR}
+${vncpasswd file path}    C:\\SVN_repo\\4.8\\medaccess\\trunk\\vnc_passwd
+${video format}    swf
+
+*** Keywords ***
+Start suite recording
+    ${output file path}    Start video ${SUITE NAME}
+    Link suite video to report    ${SUITE NAME}    ${output file path}
+
+Start test recording
+    ${output file path}    Start video ${TEST NAME}
+    Link test video to report    ${TEST NAME}    ${output file path}
+
+Stop suite recording
+    stop video ${SUITE NAME}
+
+Stop test recording
+    stop video ${TEST NAME}
+
+Start video ${name}
+    ${timestamp}=    generate timestamp
+    ${output file path}=    join path    ${output dir}    ${name}_${browser}_${timestamp}
+    Import Library    castro.Castro    filename=${output file path}.${video format}    passwd=${vncpasswd file path}    WITH NAME    ${name}
+    ${video object}    Get Library Instance    ${name}
+    Call Method    ${video object}    start
+    ${output file path}=    set variable    file:///${output file path}
+    [Return]    ${output file path}
+
+Stop video ${name}
+    ${video object}    Get Library Instance    ${name}
+    Call Method    ${video object}    stop
+
+Link test video to report
+    [Arguments]    ${test name}    ${output file path}
+    Set Test Documentation    [${output file path}.html|Video Recording: ${test name}]    append=True
+
+Link suite video to report
+    [Arguments]    ${suite name}    ${output file path}
+    Set Suite Metadata    Video Recording    [${output file path}.html|${suite name}]
+
+generate timestamp
+    ${timestamp}=    Get Current Date    result_format=%b_%d_%Y_%H.%M
+    [Return]    ${timestamp}
