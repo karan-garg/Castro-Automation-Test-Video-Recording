@@ -1,0 +1,10 @@
+*** Settings ***
+Suite Setup       Start suite recording    #Either record one video for each suite, or, one for each test, but NOT both
+Suite Teardown    Stop suite recording    #This example records both for the purposes of this tutorial
+Test Setup        Start test recording
+Test Teardown     Stop test recording
+Resource          ../common/Castro_RF.txt    #Specify path to Castro_RF resource file
+
+*** Test Cases ***
+Record separate video for each test
+    sleep    10s
