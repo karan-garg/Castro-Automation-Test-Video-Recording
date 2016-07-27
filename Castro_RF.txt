@@ -5,7 +5,7 @@ Library           OperatingSystem
 
 *** Variables ***
 #***Before running, set output directory for video and specify vnc_passwd file path***
-${output dir}     ${CURDIR}
+${video dir}     ${output dir}
 ${vncpasswd file path}    C:\\SVN_repo\\4.8\\medaccess\\trunk\\vnc_passwd
 ${video format}    swf
 
@@ -26,7 +26,7 @@ Stop test recording
 
 Start video ${name}
     ${timestamp}=    generate timestamp
-    ${output file path}=    join path    ${output dir}    ${name}_${browser}_${timestamp}
+    ${output file path}=    join path    ${video dir}    ${name}_${timestamp}
     Import Library    castro.Castro    filename=${output file path}.${video format}    passwd=${vncpasswd file path}    WITH NAME    ${name}
     ${video object}    Get Library Instance    ${name}
     Call Method    ${video object}    start
