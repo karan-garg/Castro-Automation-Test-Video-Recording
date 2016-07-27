@@ -5,8 +5,10 @@ Library           OperatingSystem
 
 *** Variables ***
 #***Before running, set output directory for video and specify vnc_passwd file path***
-${video dir}     ${output dir}
+${video dir}     ${OUTPUT DIR}  #default output dir; will be picked up from pybot -d argument (temp, by default)
 ${vncpasswd file path}    C:\\SVN_repo\\4.8\\medaccess\\trunk\\vnc_passwd
+#You can completely disable the vncpasswd authentication:
+#Just uncheck "Require VNC authentication" in your TightVNC server configuration and remove the "passwd" argument from line 32
 ${video format}    swf
 
 *** Keywords ***
